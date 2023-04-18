@@ -19,8 +19,6 @@ class App extends StatelessWidget {
   }
 
   Route routes(RouteSettings settings) {
-    print(settings);
-
     if (settings.name == "/") {
       return MaterialPageRoute(
         builder: (context) {
