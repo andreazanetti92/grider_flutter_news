@@ -24,16 +24,20 @@ class App extends StatelessWidget {
     if (settings.name == "/") {
       return MaterialPageRoute(
         builder: (context) {
+          final storiesBloc = StoriesProvider.of(context);
+
+          storiesBloc.fetchTopIds();
+
           return NewsList();
         },
       );
     } else {
       return MaterialPageRoute(
         builder: (context) {
-          final CommentsBloc = CommentsProvider.of(context);
+          final commentsBloc = CommentsProvider.of(context);
           final id = int.parse(settings.name!.replaceFirst("/", ""));
 
-          CommentsBloc.fetchItemWithComments(id);
+          commentsBloc.fetchItemWithComments(id);
 
           return NewsDetail(id: id);
         },

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:grider_flutter_news/src/Models/item_model.dart';
 import '../blocs/comments_provider.dart';
+import '../widgets/comment.dart';
 
 class NewsDetail extends StatelessWidget {
   final int? id;
@@ -36,10 +37,30 @@ class NewsDetail extends StatelessWidget {
               return const Text("Loading data...");
             }
 
-            return buildTitle(itemSnapshot.data);
+            return buildList(itemSnapshot.data, snapshot.data);
           },
         );
       },
+    );
+  }
+
+  Widget buildList(ItemModel? item, Map<int, Future<ItemModel?>>? itemMap) {
+    final children = <Widget>[];
+
+    children.add(buildTitle(item));
+
+    final commentsList = item!.kids!.map((kidId) {
+      return Comment(
+        itemId: kidId,
+        itemMap: itemMap,
+        depth: 0,
+      );
+    }).toList();
+
+    children.addAll(commentsList);
+
+    return ListView(
+      children: children,
     );
   }
 
